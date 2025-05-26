@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora MSI Pinpeo</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; }
+    label, select, input { display: block; margin: 10px 0; }
+    input[type="number"] { width: 100%; }
+    .resultado { margin-top: 20px; padding: 10px; background: #f0f0f0; }
+  </style>
+</head>
+<body>
+
+<h2>Calculadora de Meses Sin Intereses (Pinpeo)</h2>
+
+<label for="tipoOperacion">Tipo de Operación:</label>
+<select id="tipoOperacion">
+  <option value="normal">Crédito/Débito</option>
+  <option value="amex">AMEX / Internacional</option>
+</select>
+
+<label for="tarjeta">Tipo de Tarjeta:</label>
+<select id="tarjeta">
+  <option value="PROSA">PROSA</option>
+  <option value="AMEX">AMEX</option>
+  <option value="BBVA">BBVA</option>
+  <option value="CITI">Citibanamex</option>
+</select>
+
+<label for="meses">Meses sin intereses:</label>
+<select id="meses">
+  <option value="3">3 meses</option>
+  <option value="6">6 meses</option>
+  <option value="9">9 meses</option>
+  <option value="12">12 meses</option>
+</select>
+
+<label for="monto">Monto del producto ($):</label>
+<input type="number" id="monto" min="1" placeholder="Ej. 1500">
+
+<div class="resultado" id="resultado"></div>
+
+<script>
+const tasas = {
+  normal: {
+    PROSA: { 3: 0.054, 6: 0.077, 9: 0.107, 12: 0.137 },
+    AMEX:  { 3: 0.050, 6: 0.075, 9: 0.0975, 12: 0.1175 },
+    BBVA:  { 3: 0.0643, 6: 0.0992, 9: 0.1324, 12: 0.1641 },
+    CITI:  { 3: 0.0658, 6: 0.1081, 9: 0.1385, 12: 0.1593 }
+  },
+  amex: {
+    PROSA: { 3: 0.089, 6: 0.112, 9: 0.142, 12: 0.172 },
+    AMEX:  { 3: 0.085, 6: 0.110, 9: 0.1325, 12: 0.1525 },
+    BBVA:  { 3: 0.0993, 6: 0.1342, 9: 0.1674, 12: 0.1991 },
+    CITI:  { 3: 0.1008, 6: 0.1431, 9: 0.1735, 12: 0.1943 }
+  }
+};
+
+function calcular() {
+  const tipoOperacion = document.getElementById('tipoOperacion').value;
+  const tarjeta = document.getElementById('tarjeta').value;
+  const meses = parseInt(document.getElementById('meses').value);
+  const monto = parseFloat(document.getElementById('monto').value);
+
+  const tasa = tasas[tipoOperacion][tarjeta][meses];
+  const comision = monto * tasa;
+  const totalACobrar = monto + comision;
+
+  document.getElementById('resultado').innerHTML = `
+    <strong>Tasa aplicada:</strong> ${(tasa * 100).toFixed(2)}%<br>
+    <strong>Comisión:</strong> $${comision.toFixed(2)}<br>
+    <strong>Total a cobrar al cliente:</strong> $${totalACobrar.toFixed(2)}
+  `;
+}
+
+document.getElementById('tipoOperacion').addEventListener('change', calcular);
+document.getElementById('tarjeta').addEventListener('change', calcular);
+document.getElementById('meses').addEventListener('change', calcular);
+document.getElementById('monto').addEventListener('input', calcular);
+</script>
+
+</body>
+</html>
