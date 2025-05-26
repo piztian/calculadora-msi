@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <title>Calculadora MSI Pinpeo</title>
   <style>
-    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; }
-    label, select, input { display: block; margin: 10px 0; }
-    input[type="number"] { width: 100%; }
-    .resultado { margin-top: 20px; padding: 10px; background: #f0f0f0; }
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; }
+    label, select, input { display: block; margin: 10px 0; width: 100%; }
+    input[type="number"] { padding: 8px; font-size: 1em; }
+    .resultado { margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 8px; }
+    h2 { color: #1c1c1c; }
   </style>
 </head>
 <body>
@@ -44,14 +45,14 @@
 <script>
 const tasas = {
   normal: {
-    PROSA: { 3: 0.054, 6: 0.077, 9: 0.107, 12: 0.137 },
-    AMEX:  { 3: 0.050, 6: 0.075, 9: 0.0975, 12: 0.1175 },
+    PROSA: { 3: 0.0540, 6: 0.0770, 9: 0.1070, 12: 0.1370 },
+    AMEX:  { 3: 0.0500, 6: 0.0750, 9: 0.0975, 12: 0.1175 },
     BBVA:  { 3: 0.0643, 6: 0.0992, 9: 0.1324, 12: 0.1641 },
     CITI:  { 3: 0.0658, 6: 0.1081, 9: 0.1385, 12: 0.1593 }
   },
   amex: {
-    PROSA: { 3: 0.089, 6: 0.112, 9: 0.142, 12: 0.172 },
-    AMEX:  { 3: 0.085, 6: 0.110, 9: 0.1325, 12: 0.1525 },
+    PROSA: { 3: 0.0890, 6: 0.1120, 9: 0.1420, 12: 0.1720 },
+    AMEX:  { 3: 0.0850, 6: 0.1100, 9: 0.1325, 12: 0.1525 },
     BBVA:  { 3: 0.0993, 6: 0.1342, 9: 0.1674, 12: 0.1991 },
     CITI:  { 3: 0.1008, 6: 0.1431, 9: 0.1735, 12: 0.1943 }
   }
@@ -62,6 +63,11 @@ function calcular() {
   const tarjeta = document.getElementById('tarjeta').value;
   const meses = parseInt(document.getElementById('meses').value);
   const monto = parseFloat(document.getElementById('monto').value);
+
+  if (isNaN(monto) || monto <= 0) {
+    document.getElementById('resultado').innerHTML = `<strong>Ingresa un monto válido.</strong>`;
+    return;
+  }
 
   const tasa = tasas[tipoOperacion][tarjeta][meses];
   const comision = monto * tasa;
