@@ -47,6 +47,13 @@
       color: #1a4f1a;
       font-weight: 600;
     }
+    .error {
+      background: #ffe5e5;
+      padding: 15px;
+      border-radius: 8px;
+      color: #990000;
+      font-weight: 600;
+    }
     .btn-copy {
       display: block;
       margin-top: 15px;
@@ -121,6 +128,7 @@ function calcular() {
   const res = document.getElementById('resultado');
 
   if (isNaN(monto) || monto <= 0) {
+    res.className = 'error';
     res.innerHTML = 'Ingresa un monto válido.';
     return;
   }
@@ -129,11 +137,18 @@ function calcular() {
   const comision = monto * tasa;
   const total = monto + comision;
 
+  res.className = 'resultado';
   res.innerHTML = `
     Tasa aplicada: ${(tasa * 100).toFixed(2)}%<br>
     Comisión: $${comision.toFixed(2)}<br>
     Total a cobrar al cliente: $${total.toFixed(2)}
   `;
+
+  if (tarjeta === 'BBVA') {
+    setTimeout(() => {
+      alert('⚠️ SI TIENES TERMINAL BBVA, COBRA LAS TARJETAS BBVA CON ESA TERMINAL. SI NO, CONTINÚA CON PINPEO.');
+    }, 100);
+  }
 }
 
 function copiarResultado() {
