@@ -2,45 +2,100 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Calculadora MSI Pinpeo</title>
+  <title>Calculadora MSI - Celucenter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; }
-    label, select, input { display: block; margin: 10px 0; width: 100%; }
-    input[type="number"] { padding: 8px; font-size: 1em; }
-    .resultado { margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 8px; }
-    h2 { color: #1c1c1c; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+    label {
+      margin-top: 10px;
+      font-weight: 600;
+      color: #333;
+    }
+    select, input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+    }
+    .resultado {
+      background: #e9f5e9;
+      padding: 15px;
+      border-radius: 8px;
+      color: #1a4f1a;
+      font-weight: 600;
+    }
+    .btn-copy {
+      display: block;
+      margin-top: 15px;
+      width: 100%;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-copy:hover {
+      background: #0056b3;
+    }
   </style>
 </head>
 <body>
+<div class="container">
+  <h2>Calculadora MSI - Celucenter</h2>
 
-<h2>Calculadora de Meses Sin Intereses (Pinpeo)</h2>
+  <label for="tipoOperacion">Tipo de Operación:</label>
+  <select id="tipoOperacion">
+    <option value="normal">Crédito/Débito</option>
+    <option value="amex">AMEX / Internacional</option>
+  </select>
 
-<label for="tipoOperacion">Tipo de Operación:</label>
-<select id="tipoOperacion">
-  <option value="normal">Crédito/Débito</option>
-  <option value="amex">AMEX / Internacional</option>
-</select>
+  <label for="tarjeta">Tipo de Tarjeta:</label>
+  <select id="tarjeta">
+    <option value="PROSA">PROSA</option>
+    <option value="AMEX">AMEX</option>
+    <option value="BBVA">BBVA</option>
+    <option value="CITI">Citibanamex</option>
+  </select>
 
-<label for="tarjeta">Tipo de Tarjeta:</label>
-<select id="tarjeta">
-  <option value="PROSA">PROSA</option>
-  <option value="AMEX">AMEX</option>
-  <option value="BBVA">BBVA</option>
-  <option value="CITI">Citibanamex</option>
-</select>
+  <label for="meses">Meses sin intereses:</label>
+  <select id="meses">
+    <option value="3">3 meses</option>
+    <option value="6">6 meses</option>
+    <option value="9">9 meses</option>
+    <option value="12">12 meses</option>
+  </select>
 
-<label for="meses">Meses sin intereses:</label>
-<select id="meses">
-  <option value="3">3 meses</option>
-  <option value="6">6 meses</option>
-  <option value="9">9 meses</option>
-  <option value="12">12 meses</option>
-</select>
+  <label for="monto">Monto del producto ($):</label>
+  <input type="number" id="monto" min="1" placeholder="Ej. 1500">
 
-<label for="monto">Monto del producto ($):</label>
-<input type="number" id="monto" min="1" placeholder="Ej. 1500">
-
-<div class="resultado" id="resultado"></div>
+  <div class="resultado" id="resultado">Ingresa los datos para calcular.</div>
+  <button class="btn-copy" onclick="copiarResultado()">Copiar Resultado</button>
+</div>
 
 <script>
 const tasas = {
@@ -63,28 +118,35 @@ function calcular() {
   const tarjeta = document.getElementById('tarjeta').value;
   const meses = parseInt(document.getElementById('meses').value);
   const monto = parseFloat(document.getElementById('monto').value);
+  const res = document.getElementById('resultado');
 
   if (isNaN(monto) || monto <= 0) {
-    document.getElementById('resultado').innerHTML = `<strong>Ingresa un monto válido.</strong>`;
+    res.innerHTML = 'Ingresa un monto válido.';
     return;
   }
 
   const tasa = tasas[tipoOperacion][tarjeta][meses];
   const comision = monto * tasa;
-  const totalACobrar = monto + comision;
+  const total = monto + comision;
 
-  document.getElementById('resultado').innerHTML = `
-    <strong>Tasa aplicada:</strong> ${(tasa * 100).toFixed(2)}%<br>
-    <strong>Comisión:</strong> $${comision.toFixed(2)}<br>
-    <strong>Total a cobrar al cliente:</strong> $${totalACobrar.toFixed(2)}
+  res.innerHTML = `
+    Tasa aplicada: ${(tasa * 100).toFixed(2)}%<br>
+    Comisión: $${comision.toFixed(2)}<br>
+    Total a cobrar al cliente: $${total.toFixed(2)}
   `;
 }
 
-document.getElementById('tipoOperacion').addEventListener('change', calcular);
-document.getElementById('tarjeta').addEventListener('change', calcular);
-document.getElementById('meses').addEventListener('change', calcular);
+function copiarResultado() {
+  const text = document.getElementById('resultado').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Resultado copiado al portapapeles.');
+  });
+}
+
+['tipoOperacion','tarjeta','meses','monto'].forEach(id => {
+  document.getElementById(id).addEventListener('change', calcular);
+});
 document.getElementById('monto').addEventListener('input', calcular);
 </script>
-
 </body>
 </html>
