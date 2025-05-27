@@ -22,6 +22,12 @@ Una calculadora web desarrollada para vendedores que permite estimar el total a 
 | Pinpeo Internacional   | 3.50% |
 | BBVA Crédito           | 1.50% |
 
+## 📊 Fuente de información
+
+Todos los porcentajes y tasas utilizados en esta calculadora provienen de la hoja oficial compartida por el área de finanzas:
+
+🔗 [Ver hoja de cálculo original (Google Sheets)](https://docs.google.com/spreadsheets/d/1WIGNQQf3hHGfRsfBrjkg2JU-o8FywE3KQqrN_pMfOXw/edit?gid=1434399720#gid=1434399720)
+
 ## 🛠 Cómo usarla
 
 1. Elige el tipo de operación (MSI o Contado).
