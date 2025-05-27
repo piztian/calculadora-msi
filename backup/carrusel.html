@@ -1,0 +1,60 @@
+<!-- Carrusel de imágenes superior -->
+<div class="carousel-wrapper">
+  <div id="carousel">
+    <div style="display: flex;">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Xiaomi%20Redmi%2012.jpg" class="carousel-img" alt="Xiaomi Redmi 12">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Xiaomi%20Redmi%2011.jpg" class="carousel-img" alt="Xiaomi Redmi 11">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Xiaomi%20Redmi%2010.jpg" class="carousel-img" alt="Xiaomi Redmi 10">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Poco%20X5.jpg" class="carousel-img" alt="Poco X5">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Oppo%20A17.jpg" class="carousel-img" alt="Oppo A17">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Moto%20Edge%2040%20neo.jpg" class="carousel-img" alt="Moto Edge 40 Neo">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Moto%20G14.jpg" class="carousel-img" alt="Moto G14">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Moto%20G13.jpg" class="carousel-img" alt="Moto G13">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/INFINIX%20HOT%2050%20PRO.jpg" class="carousel-img" alt="Infinix HOT 50 PRO">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/CUBOT%20KINGKONG%208.jpg" class="carousel-img" alt="Cubot KingKong 8">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/BLU%20G64.jpg" class="carousel-img" alt="BLU G64">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Airpods%20Pro.jpg" class="carousel-img" alt="Airpods Pro">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Galaxy%20A14.jpg" class="carousel-img" alt="Galaxy A14">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Tecno%20Spark%20Go%201.jpg" class="carousel-img" alt="Tecno Spark Go 1">
+    </div>
+    <div style="display: flex;">
+      <!-- Duplicación para efecto infinito -->
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Xiaomi%20Redmi%2012.jpg" class="carousel-img" alt="Xiaomi Redmi 12">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Xiaomi%20Redmi%2011.jpg" class="carousel-img" alt="Xiaomi Redmi 11">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Xiaomi%20Redmi%2010.jpg" class="carousel-img" alt="Xiaomi Redmi 10">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Poco%20X5.jpg" class="carousel-img" alt="Poco X5">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Oppo%20A17.jpg" class="carousel-img" alt="Oppo A17">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Moto%20Edge%2040%20neo.jpg" class="carousel-img" alt="Moto Edge 40 Neo">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Moto%20G14.jpg" class="carousel-img" alt="Moto G14">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Moto%20G13.jpg" class="carousel-img" alt="Moto G13">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/INFINIX%20HOT%2050%20PRO.jpg" class="carousel-img" alt="Infinix HOT 50 PRO">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/CUBOT%20KINGKONG%208.jpg" class="carousel-img" alt="Cubot KingKong 8">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/BLU%20G64.jpg" class="carousel-img" alt="BLU G64">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Airpods%20Pro.jpg" class="carousel-img" alt="Airpods Pro">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Galaxy%20A14.jpg" class="carousel-img" alt="Galaxy A14">
+      <img src="https://piztian.github.io/samsung-s25/imagenes/productos/Tecno%20Spark%20Go%201.jpg" class="carousel-img" alt="Tecno Spark Go 1">
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .carousel-wrapper {
+    background-color: #111;
+    padding: 20px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  #carousel {
+    display: flex;
+    gap: 15px;
+    animation: scroll 60s linear infinite;
+  }
+
+  .carousel-img {
+    height: 120px;
+    border-radius: 8px;
+  }
+</style>
