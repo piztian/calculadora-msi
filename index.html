@@ -79,7 +79,19 @@
   <select id="tipoOperacion">
     <option value="normal">Crédito/Débito</option>
     <option value="amex">AMEX / Internacional</option>
+    <option value="contado">Contado</option>
   </select>
+
+  <div id="tipoContado" style="display:none">
+    <label for="contadoTipo">Tipo (solo contado):</label>
+    <select id="contadoTipo">
+      <option value="pinpeo_credito">Pinpeo Crédito</option>
+      <option value="pinpeo_debito">Pinpeo Débito</option>
+      <option value="pinpeo_amex">Pinpeo AMEX</option>
+      <option value="pinpeo_internacional">Pinpeo Internacional</option>
+      <option value="bbva_credito">BBVA Crédito</option>
+    </select>
+  </div>
 
   <label for="tarjeta">Tipo de Tarjeta:</label>
   <select id="tarjeta">
@@ -91,10 +103,12 @@
 
   <label for="meses">Meses sin intereses:</label>
   <select id="meses">
+    <option value="1">Contado</option>
     <option value="3">3 meses</option>
     <option value="6">6 meses</option>
     <option value="9">9 meses</option>
     <option value="12">12 meses</option>
+    <option value="18">18 meses</option>
   </select>
 
   <label for="monto">Monto del producto ($):</label>
@@ -117,6 +131,13 @@ const tasas = {
     AMEX:  { 3: 0.0850, 6: 0.1100, 9: 0.1325, 12: 0.1525 },
     BBVA:  { 3: 0.0993, 6: 0.1342, 9: 0.1674, 12: 0.1991 },
     CITI:  { 3: 0.1008, 6: 0.1431, 9: 0.1735, 12: 0.1943 }
+  },
+  contado: {
+    pinpeo_credito: 0.015,
+    pinpeo_debito: 0.015,
+    pinpeo_amex: 0.035,
+    pinpeo_internacional: 0.035,
+    bbva_credito: 0.015
   }
 };
 
@@ -126,6 +147,23 @@ function calcular() {
   const meses = parseInt(document.getElementById('meses').value);
   const monto = parseFloat(document.getElementById('monto').value);
   const res = document.getElementById('resultado');
+  const tipoContado = document.getElementById('contadoTipo').value;
+
+  if (tipoOperacion === 'contado') {
+    document.getElementById('tipoContado').style.display = 'block';
+    const tasa = tasas.contado[tipoContado];
+    const comision = monto * tasa;
+    const total = monto + comision;
+    res.className = 'resultado';
+    res.innerHTML = `
+      Tasa aplicada: ${(tasa * 100).toFixed(2)}%<br>
+      Comisión: $${comision.toFixed(2)}<br>
+      Total a cobrar al cliente: $${total.toFixed(2)}
+    `;
+    return;
+  } else {
+    document.getElementById('tipoContado').style.display = 'none';
+  }
 
   if (isNaN(monto) || monto <= 0) {
     res.className = 'error';
@@ -158,7 +196,7 @@ function copiarResultado() {
   });
 }
 
-['tipoOperacion','tarjeta','meses','monto'].forEach(id => {
+['tipoOperacion','tarjeta','meses','monto','contadoTipo'].forEach(id => {
   document.getElementById(id).addEventListener('change', calcular);
 });
 document.getElementById('monto').addEventListener('input', calcular);
