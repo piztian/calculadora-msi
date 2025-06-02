@@ -131,6 +131,7 @@ Cambios solicitados:
 1. Eliminar los tipos innecesarios y dejar solo: "crédito", "contado", "contado amex/internacional".
 2. Simplificar el select de tipo contado.
 3. Ajustar la lógica de cálculo para esas 3 opciones.
+4. Ocultar el campo de meses si la operación no lo requiere.
 -->
 
 <!DOCTYPE html>
@@ -171,9 +172,8 @@ Cambios solicitados:
   </select>
 
   <div id="mesesWrapper">
-    <label for="meses">Elije los Meses a Cobrar o Contado:</label>
+    <label for="meses">Elije los Meses a Cobrar:</label>
     <select id="meses">
-      <option value="1">Contado</option>
       <option value="3">3 meses</option>
       <option value="6">6 meses</option>
       <option value="9">9 meses</option>
@@ -208,11 +208,11 @@ function calcular() {
   const mesesWrapper = document.getElementById('mesesWrapper');
   const mesesSelect = document.getElementById('meses');
 
-  // Ocultar o mostrar selector de meses según el tipo
-  if (tipoOperacion === 'contado' || tipoOperacion === 'contado_amex') {
-    mesesWrapper.style.display = 'none';
-  } else {
+  // Mostrar u ocultar el selector de meses
+  if (tipoOperacion === 'credito') {
     mesesWrapper.style.display = 'block';
+  } else {
+    mesesWrapper.style.display = 'none';
   }
 
   if (isNaN(monto) || monto <= 0) {
@@ -221,12 +221,10 @@ function calcular() {
     return;
   }
 
-  // Contado y contado amex
   if (tipoOperacion === 'contado' || tipoOperacion === 'contado_amex') {
     const tasa = tipoOperacion === 'contado' ? tasas.contado : tasas.contado_amex;
     const comision = monto * tasa;
     const total = monto + comision;
-
     res.className = 'resultado';
     res.innerHTML = `
       Tasa aplicada: ${(tasa * 100).toFixed(2)}%<br>
@@ -237,10 +235,15 @@ function calcular() {
   }
 
   const meses = parseInt(mesesSelect.value);
-  const tasa = tasas.credito[tarjeta][meses] || 0;
+  if (!tasas.credito[tarjeta] || !tasas.credito[tarjeta][meses]) {
+    res.className = 'error';
+    res.innerHTML = 'Selecciona una combinación válida de tarjeta y meses.';
+    return;
+  }
+
+  const tasa = tasas.credito[tarjeta][meses];
   const comision = monto * tasa;
   const total = monto + comision;
-
   res.className = 'resultado';
   res.innerHTML = `
     Tasa aplicada: ${(tasa * 100).toFixed(2)}%<br>
