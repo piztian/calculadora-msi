@@ -128,9 +128,9 @@
 <!-- MODIFICACIONES A LA CALCULADORA -->
 <!--
 Cambios solicitados:
-1. Eliminar los tipos innecesarios y dejar solo: "crédito", "contado", "contado amex/internacional".
-2. Simplificar el select de tipo contado.
-3. Ajustar la lógica de cálculo para esas 3 opciones.
+1. Eliminar los tipos innecesarios y dejar solo: "crédito" y "contado".
+2. Aplicar tasa de contado de 3.5% si es AMEX, y 1.5% para las demás.
+3. Ajustar la lógica de cálculo para esas 2 opciones.
 4. Ocultar el campo de meses si la operación no lo requiere.
 -->
 
@@ -160,7 +160,6 @@ Cambios solicitados:
   <select id="tipoOperacion">
     <option value="credito">Crédito</option>
     <option value="contado">Contado</option>
-    <option value="contado_amex">Contado AMEX/Internacional</option>
   </select>
 
   <label for="tarjeta">Tipo de Tarjeta del Cliente:</label>
@@ -196,8 +195,10 @@ const tasas = {
     BBVA:  { 3: 0.0643, 6: 0.0992, 9: 0.1324, 12: 0.1641 },
     CITI:  { 3: 0.0658, 6: 0.1081, 9: 0.1385, 12: 0.1593 }
   },
-  contado: 0.015,
-  contado_amex: 0.035
+  contado: {
+    AMEX: 0.035,
+    default: 0.015
+  }
 };
 
 function calcular() {
@@ -221,8 +222,8 @@ function calcular() {
     return;
   }
 
-  if (tipoOperacion === 'contado' || tipoOperacion === 'contado_amex') {
-    const tasa = tipoOperacion === 'contado' ? tasas.contado : tasas.contado_amex;
+  if (tipoOperacion === 'contado') {
+    const tasa = tasas.contado[tarjeta] || tasas.contado.default;
     const comision = monto * tasa;
     const total = monto + comision;
     res.className = 'resultado';
