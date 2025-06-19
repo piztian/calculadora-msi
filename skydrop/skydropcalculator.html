@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cotizador Express - Celucenter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+    }
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: 30px auto;
+    }
+    h2 {
+      text-align: center;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: 600;
+      color: #333;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    .resultado {
+      background: #e9f5e9;
+      padding: 15px;
+      border-radius: 8px;
+      color: #1a4f1a;
+      font-weight: 600;
+      text-align: center;
+    }
+    .btn-copy {
+      display: block;
+      margin-top: 15px;
+      width: 100%;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-copy:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Cotizador Express</h2>
+
+  <label for="costo">Precio en Skydrop:</label>
+  <input type="number" id="costo" placeholder="Ej. 1000" min="0" oninput="calcularPrecio()">
+
+  <div class="resultado" id="resultado">Ingresa el precio para cotizar.</div>
+  <button class="btn-copy" onclick="copiarResultado()">Copiar Resultado</button>
+</div>
+
+<script>
+function calcularPrecio() {
+  const costo = parseFloat(document.getElementById('costo').value);
+  const resultado = document.getElementById('resultado');
+
+  if (isNaN(costo) || costo <= 0) {
+    resultado.innerText = 'Ingresa un precio válido.';
+    resultado.style.color = '#990000';
+    resultado.style.background = '#ffe5e5';
+    return;
+  }
+
+  const precioFinal = costo * 2.2;
+  resultado.innerHTML = `Precio sugerido al cliente: <strong>$${precioFinal.toFixed(2)}</strong>`;
+  resultado.style.color = '#1a4f1a';
+  resultado.style.background = '#e9f5e9';
+}
+
+function copiarResultado() {
+  const text = document.getElementById('resultado').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Resultado copiado al portapapeles.');
+  });
+}
+</script>
+
+</body>
+</html>
